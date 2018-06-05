@@ -1,0 +1,19 @@
+<html>
+<head>
+<meta charset="utf-8" />
+</head>
+<body>
+<div id="panel"></div>
+
+<script>
+function testCallback(data){
+	if(data.status=='succ'){
+		if(data.data.type=='url'){
+			document.getElementById('panel').innerHTML = '<a href="'+data.data.url+'">支付</a>'
+		}
+	}
+}
+</script>
+<script src="/api/openapi.ashx/pay.do?project=fzq-h5&paytype=weixin&name=pay&amt=100&callback=testCallback"></script>
+</body>
+</html>
