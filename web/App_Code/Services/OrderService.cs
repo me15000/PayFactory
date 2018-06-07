@@ -123,6 +123,28 @@ namespace Services
             return statusInfo;
         }
 
+        public OrderInfo GetOrderInfo(string orderno)
+        {
+            var db = Common.DB.Factory.CreateDBHelper();
+
+            var data = db.GetData("select amount,orderno,paych,paytype,project from [orderinfo] where orderno=@0", orderno);
+            if (data == null)
+            {
+                return null;
+            }
+
+            OrderInfo info = new OrderInfo();
+
+            info.Amount = Convert.ToInt32(data["amount"]);
+            info.OrderNo = orderno;
+            info.PayCH = data["paych"] as string ?? string.Empty;
+            info.PayType = data["paytype"] as string ?? string.Empty;
+            info.Project = data["project"] as string ?? string.Empty;
+
+            return info;
+
+        }
+
         public bool UpdateOrderStatus(string orderno, OrderStatus status)
         {
             var db = Common.DB.Factory.CreateDBHelper();

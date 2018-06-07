@@ -1,8 +1,10 @@
 ﻿
 using Newtonsoft.Json;
 using System;
+using System.Collections.Specialized;
 using System.IO;
 using System.Web;
+using System.Web.Security;
 
 namespace API
 {
@@ -40,6 +42,9 @@ namespace API
                 case "/pay/status.json":
                     pay_status();
                     break;
+
+
+
                 case "/test.do":
                     Pay.PayFactory.Create("weixin.jinku");
                     break;
@@ -47,6 +52,8 @@ namespace API
                     break;
             }
         }
+
+
 
         void pay_status()
         {
@@ -79,6 +86,70 @@ namespace API
             return false;
         }
 
+
+
+
+        string UserMd5(string str, int code)
+        {
+            if (code == 16) //16位MD5加密（取32位加密的9~25字符）
+            {
+                return FormsAuthentication.HashPasswordForStoringInConfigFile(str, "MD5").ToLower().Substring(8, 16);
+            }
+            if (code == 32)
+            {
+                return FormsAuthentication.HashPasswordForStoringInConfigFile(str, "MD5").ToLower();
+            }
+
+            return str;
+        }
+
+
+        string GetCallbackUrlDoSign(ProjectConfig config, NameValueCollection nvc)
+        {
+            return UserMd5(config.SecretKey + "&" + nvc["orderno"] + "&" + nvc["amount"] + "&" + nvc["status"], 32);
+        }
+
+        void callbackUrlDo(string orderno)
+        {
+            var service = new Services.OrderService();
+
+            var info = service.GetOrderInfo(orderno);
+
+            if (info == null)
+            {
+                return;
+            }
+
+            var status = service.QueryOrderStatus(orderno);
+
+            var config = Config.GetProjectConfig(info.Project);
+
+            if (config == null)
+            {
+                return;
+            }
+
+            if (!string.IsNullOrEmpty(config.CallbackURL))
+            {
+                Uri calluri = null;
+
+                if (Uri.TryCreate(config.CallbackURL, UriKind.Absolute, out calluri))
+                {
+                    var nvc = new NameValueCollection();
+                    nvc["orderno"] = orderno;
+                    nvc["amount"] = info.Amount.ToString();
+                    nvc["status"] = status == Services.OrderStatus.Succ ? "succ" : "unkonwn";
+                    nvc["sign"] = GetCallbackUrlDoSign(config, nvc);
+
+
+                    using (var wc = new System.Net.WebClient())
+                    {
+                        wc.UploadValues(config.CallbackURL, "POST", nvc);
+                    }
+                }
+            }
+        }
+
         void pay_callback_do(string payConfigKey)
         {
             if (string.IsNullOrEmpty(payConfigKey))
@@ -108,6 +179,9 @@ namespace API
                     }
 
                     service.UpdateOrderStatus(orderno, status);
+
+
+                    callbackUrlDo(orderno);
                 }
 
 

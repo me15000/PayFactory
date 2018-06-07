@@ -5,7 +5,12 @@ using System.ComponentModel;
 
 
 
-
+public class ProjectConfig
+{
+    public Dictionary<string, string> Config { get; set; }
+    public string CallbackURL { get; set; }
+    public string SecretKey { get; set; }
+}
 
 
 public class Config
@@ -16,7 +21,7 @@ public class Config
             "weixin.klzskt",
             new PayConfig{
                 Name = "aa",
-                Key = "weixin.klzskt",
+                Key = "aa",
                 ClientType = "Pay.WXPay.PayClient",
                 Data = new Dictionary<string, string> {
                     {"appid" ,"aa"},
@@ -26,18 +31,17 @@ public class Config
                     {"name" ,"支付"},
                     {"notifyurl" ,"http://pay.h5.fun5.cn/api/OpenApi.ashx/pay/callback.do/weixin.klzskt"},
                     {"wapurl" ,"http://pay.h5.fun5.cn/"},
-                    {"serverip" ,"0.0.0.0"}
+                    {"serverip" ,"1.1.1.1"}
                 }
             }
         },
         {
             "alipay.shwenli",
             new PayConfig{
-                Name = "aa-aa",
+                Name = "alipay",
                 Key = "alipay.shwenli",
                 ClientType = "Pay.Alipay.PayClient",
                 Data = new Dictionary<string, string> {
-                    //{"appid" ,"2017063007608308"},
                     {"pid" ,"aa"},
                     {"appsecret" ,"aa"},
                     {"notifyurl" ,"http://pay.h5.fun5.cn/api/OpenApi.ashx/pay/callback.do/alipay.shwenli"},
@@ -50,7 +54,7 @@ public class Config
         {
             "weixin.jiaoyou",
             new PayConfig{
-                Name = "aa",
+                Name = "SFT",
                 Key = "weixin.jiaoyou",
                 ClientType = "Pay.SFTPay.PayClient",
                 Data = new Dictionary<string, string> {
@@ -64,7 +68,7 @@ public class Config
         {
             "weixin.sft.duokai",
             new PayConfig{
-                Name = "aa",
+                Name = "SFT",
                 Key = "weixin.sft.duokai",
                 ClientType = "Pay.SFTPay.PayClient",
                 Data = new Dictionary<string, string> {
@@ -78,11 +82,10 @@ public class Config
         {
             "alipay.guangbiao",
             new PayConfig{
-                Name = "aa-广标",
+                Name = "alipay",
                 Key = "alipay.guangbiao",
                 ClientType = "Pay.Alipay.PayClient",
                 Data = new Dictionary<string, string> {
-                    //{"appid" ,"2017063007608308"},
                     {"pid" ,"aa"},
                     {"appsecret" ,"aa"},
                     {"notifyurl" ,"http://pay.h5.fun5.cn/api/OpenApi.ashx/pay/callback.do/alipay.guangbiao"},
@@ -94,7 +97,7 @@ public class Config
         {
             "weixin.haibei",
             new PayConfig{
-                Name = "aaa",
+                Name = "海贝支付",
                 Key = "weixin.haibei",
                 ClientType = "Pay.HaiBeiPay.PayClient",
                 Data = new Dictionary<string, string> {
@@ -108,7 +111,7 @@ public class Config
         {
             "weixin.jinku",
             new PayConfig{
-                Name = "aa",
+                Name = "金库支付",
                 Key = "weixin.jinku",
                 ClientType = "Pay.JinKuPay.PayClient",
                 Data = new Dictionary<string, string> {
@@ -122,7 +125,7 @@ public class Config
         {
             "weixin.qingyun",
             new PayConfig{
-                Name = "aa",
+                Name = "轻云支付",
                 Key = "weixin.qingyun",
                 ClientType = "Pay.QYPay.PayClient",
                 Data = new Dictionary<string, string> {
@@ -136,7 +139,7 @@ public class Config
         {
             "weixin.yunjian",
             new PayConfig{
-                Name = "aa",
+                Name = "云尖支付",
                 Key = "weixin.yunjian",
                 ClientType = "Pay.YunJianPay.PayClient",
                 Data = new Dictionary<string, string> {
@@ -151,7 +154,7 @@ public class Config
         {
             "weixin.tongyi",
             new PayConfig{
-                Name = "aa", 
+                Name = "通易付",
                 Key = "weixin.tongyi",
                 ClientType = "Pay.TongYiPay.PayClient",
                 Data = new Dictionary<string, string> {
@@ -176,61 +179,74 @@ public class Config
     }
 
 
-    private static Dictionary<string, Dictionary<string, string>> ProjectPayConfig = new Dictionary<string, Dictionary<string, string>>()
+    private static Dictionary<string, ProjectConfig> ProjectPayConfig = new Dictionary<string, ProjectConfig>()
     {
         {
-            "fzq-h5",//
-
-            new Dictionary<string,string>(){
-                { "weixin" ,"weixin.klzskt"},
-                { "alipay" ,"alipay.shwenli"}
+            "fzq-h5",
+            new ProjectConfig{
+                CallbackURL = null,
+                Config =  new Dictionary<string,string>(){
+                    { "weixin" ,"weixin.klzskt"},
+                    { "alipay" ,"alipay.shwenli"}
+                }
+            }
+        },
+        {
+            "jy-app",
+             new ProjectConfig{
+                CallbackURL = null,
+                Config =  new Dictionary<string,string>(){
+                    { "weixin" ,"weixin.jiaoyou"}
+                }
             }
 
         },
         {
-            "jy-app",//
-
-            new Dictionary<string,string>(){
-                { "weixin" ,"weixin.jiaoyou"}
+            "jz-h5",
+            new ProjectConfig{
+                CallbackURL = null,
+                Config =  new Dictionary<string,string>(){
+                    { "weixin" ,"weixin.haibei"},
+                    { "alipay" ,"alipay.guangbiao"}
+                }
             }
 
-        },
-        {
-            "jz-h5",//
-
-            new Dictionary<string,string>(){
-                { "weixin" ,"weixin.haibei"},
-                { "alipay" ,"alipay.guangbiao"}
-            }
 
         }
 
         ,
         {
-            "wj-h5",//
-            new Dictionary<string,string>(){
-                { "weixin" ,"weixin.jinku"}
+            "wj-h5",
+            new ProjectConfig{
+                CallbackURL = null,
+                Config =  new Dictionary<string,string>(){
+                    { "weixin" ,"weixin.jinku"}
+                }
             }
 
         }
         ,
         {
-            "dyzs-app",//
-            new Dictionary<string,string>(){
-                { "weixin" ,"weixin.sft.duokai"},
-                { "alipay" ,"alipay.shwenli"}
+            "dyzs-app",
+            new ProjectConfig{
+                CallbackURL = null,
+                SecretKey = "abcd",
+                Config =  new Dictionary<string,string>(){
+                    { "weixin" ,"weixin.yunjian"},
+                    { "alipay" ,"alipay.shwenli"}
+                }
             }
-
         }
         ,
         {
-            "test",//
-            new Dictionary<string,string>(){
-
-                { "weixin" ,"weixin.tongyi"},
-                { "test" ,"weixin.klzskt"}
+            "test",//test
+            new ProjectConfig{
+                CallbackURL = null,
+                Config =  new Dictionary<string,string>(){
+                    { "weixin" ,"weixin.tongyi"},
+                    { "test" ,"weixin.klzskt"}
+                }
             }
-
         }
     };
 
@@ -239,25 +255,37 @@ public class Config
         return ProjectPayConfig.ContainsKey(project);
     }
 
- 
-    public static PayConfig GetPayConfig(string projectKey, string paytype)
+
+    public static ProjectConfig GetProjectConfig(string projectKey)
     {
         if (ProjectPayConfig.ContainsKey(projectKey))
         {
-            var data = ProjectPayConfig[projectKey];
-            if (data != null)
-            {
-                if (data.ContainsKey(paytype))
-                {
-                    string paykey = data[paytype];
+            return ProjectPayConfig[projectKey];
+        }
 
-                    if (PayDict.ContainsKey(paykey))
-                    {
-                        return PayDict[paykey];
-                    }
-                }
+        return null;
+    }
+
+    public static PayConfig GetPayConfig(string projectKey, string paytype)
+    {
+        var config = GetProjectConfig(projectKey);
+
+        if (config == null)
+        {
+            return null;
+        }
+
+
+        if (config.Config.ContainsKey(paytype))
+        {
+            string paykey = config.Config[paytype];
+
+            if (PayDict.ContainsKey(paykey))
+            {
+                return PayDict[paykey];
             }
         }
+
 
         return null;
     }

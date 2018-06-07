@@ -472,6 +472,9 @@ namespace Pay.WXPay
             dic = dic.OrderBy(d => d.Key).ToDictionary(d => d.Key, d => d.Value);
             //连接字段  
             var sign = dic.Aggregate("", (current, d) => current + (d.Key + "=" + d.Value + "&"));
+
+
+
             sign += "key=" + key;
 
             System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create();
