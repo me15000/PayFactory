@@ -144,7 +144,16 @@ namespace API
 
                     using (var wc = new System.Net.WebClient())
                     {
-                        wc.UploadValues(config.CallbackURL, "POST", nvc);
+                        byte[] data = wc.UploadValues(config.CallbackURL, "POST", nvc);
+
+                        string result = null;
+
+                        if (data!=null)
+                        {
+                            result = System.Text.Encoding.GetEncoding("utf-8").GetString(data);
+                        }
+
+                        service.UpdateCallbackData(orderno, result ?? string.Empty);
                     }
                 }
             }

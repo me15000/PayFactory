@@ -1,7 +1,7 @@
 USE [h5.pay]
 GO
 
-/****** Object:  Table [dbo].[orderinfo]    Script Date: 06/05/2018 14:25:16 ******/
+/****** Object:  Table [dbo].[orderinfo]    Script Date: 06/07/2018 16:42:37 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -20,6 +20,8 @@ CREATE TABLE [dbo].[orderinfo](
 	[amount] [int] NULL,
 	[paytype] [varchar](20) NULL,
 	[paych] [varchar](20) NULL,
+	[callbackdata] [varchar](50) NULL,
+	[callbackdate] [datetime] NULL,
  CONSTRAINT [PK_orderinfo] PRIMARY KEY CLUSTERED 
 (
 	[orderno] ASC

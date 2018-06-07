@@ -123,6 +123,14 @@ namespace Services
             return statusInfo;
         }
 
+        public void UpdateCallbackData(string orderno, string data)
+        {
+            var db = Common.DB.Factory.CreateDBHelper();
+
+            db.ExecuteNoneQuery("update [orderinfo] set callbackdata=@1,callbackdate=@2 where orderno=@0", orderno, data, DateTime.Now);
+        }
+
+
         public OrderInfo GetOrderInfo(string orderno)
         {
             var db = Common.DB.Factory.CreateDBHelper();
